@@ -21,8 +21,8 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
-app.use(authJwt());
-app.use(errorHandler);
+// app.use(authJwt());
+// app.use(errorHandler);
 app.use('/public/uploads/restaurants', express.static(__dirname + '/public/uploads/restaurants/'));
 app.use('/public/uploads/menus', express.static(__dirname + '/public/uploads/menus/'));
 app.get('/', (req,res) => {
