@@ -10,35 +10,35 @@ const router = express.Router();
 
 
 router.post('/', async (req, res) => {
-    
+
     try {
         console.log(req.body);
-    const {
-        restaurant_name,
-        address,
-        open_status,
-        describe,
-       
+        const {
+            restaurant_name,
+            address,
+            open_status,
+            describe,
 
-    } = req.body;
-    const addr = await addresses.create({
-        addr_line1: address.addr_line1,
-        addr_line2: address.addr_line2,
-        state: address.state,
-        city: address.city,
-        postal_code: address.postal_code
-    }); //address/id
-    const restaurants = await restaurant.create({
-        restaurant_name: restaurant_name,
-        address: [addr._id],
-        open_status,
-        describe: describe,
-        sale_id: null
-    });
-    res.send({
-        massage: 'restaurant created!',
-        data: restaurants
-    });
+
+        } = req.body;
+        const addr = await addresses.create({
+            addr_line1: address.addr_line1,
+            addr_line2: address.addr_line2,
+            state: address.state,
+            city: address.city,
+            postal_code: address.postal_code
+        }); //address/id
+        const restaurants = await restaurant.create({
+            restaurant_name: restaurant_name,
+            address: [addr._id],
+            open_status,
+            describe: describe,
+            sale_id: null
+        });
+        res.send({
+            massage: 'restaurant created!',
+            data: restaurants
+        });
     } catch (error) {
         console.log(error);
     }
@@ -47,11 +47,26 @@ router.post('/', async (req, res) => {
 
 
 router.get("/", async (req, res) => {
-    const rest = await restaurant.find({}).populate('menus')
-        // populate('address').
+    const rest = await restaurant.find({})
+    // populate('address').
     res.send(rest);
-        
+
 });
+
+router.get("/menus/:id", async (req, res) => {
+    try {
+        const rest_menu = await restaurant.find({}).populate('menus')
+        if (!rest_menu) {
+            return res.status(400).send('Can not found restaurant and menu');
+        }
+        res.status(200).send(rest_menu);
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);
+    }
+
+})
 
 router.get("/:_id", (req, res) => {
     restaurants.findById(req.params._id).exec((err, data) => {

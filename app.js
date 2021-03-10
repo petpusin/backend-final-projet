@@ -8,6 +8,8 @@ const Restaurants = require('./routes/restaurant.js');
 const Menu = require('./routes/menu.js');
 const Typemenu = require('./routes/type_menu.js');
 const Order = require('./routes/order');
+const Home = require('./routes/home');
+const User = require('./routes/user');
 // middleware JWT
 const authJwt = require('./helpers/jwt');
 // const verifyToken = require('./routes/verifyJwt');
@@ -34,6 +36,8 @@ app.use(`${api}/restaurant`, Restaurants);
 app.use(`${api}/menu`, Menu);
 app.use(`${api}/typemenu`, Typemenu);
 app.use(`${api}/order` , Order);
+app.use(`${api}/home`, Home);
+app.use(`${api}/user`, User);
 
 
 // app.get('/', (req,res) =>{

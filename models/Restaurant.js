@@ -12,7 +12,8 @@ const RestaurantSchema = new Schema({
     option: [{type: Schema.Types.ObjectId, ref: 'options',default: null}],
     varaition : [{type: Schema.Types.ObjectId, ref: 'varaitions',default: null}],
     approve_status:{type: String,default: "Not Approve"},
-    res_image : {type: String}
+    res_image : {type: String},
+    website:{type: String},
     
 },{ timestamps: true });
 

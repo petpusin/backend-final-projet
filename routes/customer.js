@@ -9,26 +9,6 @@ const jwt = require('jsonwebtoken')
 const router = express.Router();
 
 
-// router.post('/', (req, res) => {
-//     const sale = new Sales({
-//         sale_id: req.body.sale_id,
-//         sale_firstname: req.body.sale_firstname,
-//         sale_lastname: req.body.sale_lastname,
-//         sale_age: req.body.sale_age,
-//         sale_phone: req.body.sale_phone,
-//         sale_email: req.body.sale_email,
-//         create: req.body.create,
-//         restaurant_id: req.body.restaurant_id
-//     });
-//     sale.save().then(result => {
-//         res.send({
-//             massage: 'Sale created!',
-//             data: result
-//         }).catch(
-//             err => console.log(err)
-//         )
-//     })
-// });
 
 router.get('/', async (req, res) => {
     const userList = await acc.find().select('-password');
@@ -83,7 +63,8 @@ router.post('/register', async (req, res) => {
             cus_age,
             cus_phone,
             cus_email,
-            acc_id,
+            username,
+            password,
             career,
             careerDetail
 
@@ -94,8 +75,8 @@ router.post('/register', async (req, res) => {
         
 
         const account = new acc({
-            username: acc_id.username,
-            password: bcrypt.hashSync(acc_id.password, 10),
+            username: username,
+            password: bcrypt.hashSync(password, 10),
             
 
         })

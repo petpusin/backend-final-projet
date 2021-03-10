@@ -22,7 +22,11 @@ const SalesSchema = new Schema({
         required: true
     },
     acc_id :{ type: Schema.Types.ObjectId, ref: 'accId' ,required: true },
-    restaurants: { type: Schema.Types.ObjectId, ref: 'restaurant' ,required: true }
+    restaurants: { type: Schema.Types.ObjectId, ref: 'restaurant' ,required: true },
+    line: {
+        type: String,
+        required: true
+    },
 
 }, { timestamps: true });
 

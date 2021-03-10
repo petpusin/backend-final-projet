@@ -23,10 +23,10 @@ var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const isValid = FILE_TYPE_MAP[file.mimetype];
         let uploadError = new Error('invalid image type')
-        if(isValid){
-            uploadError = null ;
+        if (isValid) {
+            uploadError = null;
         }
-        cb(uploadError,'public/uploads/restaurants');
+        cb(uploadError, 'public/uploads/restaurants');
     },
     filename: function (req, file, cb) {
         const fileName = file.originalname.split(' ').join('-');
@@ -98,7 +98,7 @@ router.post('/login', async (req, res) => {
 });
 
 
-router.post('/register', uploadOption.single("res_image"),async (req, res) => {
+router.post('/register', uploadOption.single("res_image"), async (req, res) => {
     // res.send('register route');
 
 
@@ -114,23 +114,26 @@ router.post('/register', uploadOption.single("res_image"),async (req, res) => {
             password,
             restaurant_name,
             addr_line1,
-            addr_line2,
-            state,
-            city,
-            postal_code,
-            describe
+            road,
+            subdistrict,
+            district,
+            province,
+            postalcode,
+            line,
+            website
 
 
 
         } = req.body;
-        
+
         console.log(req.body)
         const addr = new addresses({
             addr_line1: addr_line1,
-            addr_line2: addr_line2,
-            state: state,
-            city: city,
-            postal_code: postal_code
+            road: road,
+            subdistrict: subdistrict,
+            district: district,
+            province: province,
+            postalcode: postalcode,
         }); //address/id
         await addr.save();
         //ingredient
@@ -170,7 +173,7 @@ router.post('/register', uploadOption.single("res_image"),async (req, res) => {
         const rest = new restaurant({
             restaurant_name: restaurant_name,
             address: [addr._id],
-            describe: describe,
+            website: website,
             res_image: `${basePath}${FileName}`
         });
         await rest.save();
@@ -189,7 +192,8 @@ router.post('/register', uploadOption.single("res_image"),async (req, res) => {
             sale_phone: sale_phone,
             sale_email: sale_email,
             acc_id: [account._id],
-            restaurants: [rest._id]
+            restaurants: [rest._id],
+            line: line
         });
 
         await sale.save();
