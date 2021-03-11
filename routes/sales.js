@@ -207,7 +207,19 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
 
 })
 
+router.put("/:_id",uploadOption.single("res_image"), async (req,res) => {
+    
+    const FileName = req.file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/restaurants/`
+    const res_update = await restaurant.findByIdAndUpdate(req.params._id, {
+        res_image: `${basePath}${FileName}`
 
+    }, { new: true })
+    if (!res_update) {
+        return res.status(400).send('the res_update cannot br create!')
+    }
+    res.send(res_update);
+})
 
 module.exports = router;
 
