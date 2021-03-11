@@ -81,4 +81,18 @@ router.post('/',uploadOption.single("menu_image"), async (req, res) => {
     // res.end();
 });
 
+router.put("/:_id",uploadOption.single("menu_image"), async (req,res) => {
+    
+    const FileName = req.file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/menus/`
+    const menu_update = await menu.findByIdAndUpdate(req.params._id, {
+        menu_image: `${basePath}${FileName}`
+
+    }, { new: true })
+    if (!menu_update) {
+        return res.status(400).send('the res_update cannot br create!')
+    }
+    res.send(menu_update);
+})
+
 module.exports = router;

@@ -1,12 +1,12 @@
 const express = require('express');
-const typemenu = require('..//models/Type_menu');
+const typemenu = require('../models/Type_menu');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
         const getType = await typemenu.find();
         if(!getType) {
-            res.status(500).json({success : false});
+            return res.status(500).json({success : false});
         }
         
         res.send(getType);
@@ -18,26 +18,24 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 
-
     try {
         const {
             type_name,
             describe
 
         } = req.body;
-
-        const category = typemenu.find({type_name : type_name});
-
-        if(!category){
-            res.status(400).send('has type of menu yet!')
+        console.log(req.body);
+        const category = await typemenu.findOne({type_name : type_name});
+        if(category){
+            return res.status(400).send('has type of menu yet!')
         }
-        let createType = new typemenu({
+        const createType = new typemenu({
             type_name: type_name,
             describe: describe
         });
-        createType = await createType.save();
+        await createType.save();
         if(!createType) {
-            res.status(404).json({success : false});
+            return res.status(404).json({success : false});
         }
         res.send(createType);
        

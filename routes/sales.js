@@ -5,7 +5,6 @@ const restaurant = require('../models/Restaurant');
 const acc = require('../models/AccId');
 const addresses = require('../models/Address');
 const ingredients = require('../models/Ingredient');
-
 const options = require('../models/Option');
 const varaitions = require('../models/Varaiation');
 const jwt = require('jsonwebtoken')
@@ -70,7 +69,7 @@ router.get('/:id', async (req, res) => {
     const user = await acc.findById({ _id: req.params.id }).select('-password');
 
     if (!user) {
-        res.status(500).json({ success: false });
+        return res.status(500).json({ success: false });
     }
     res.send(user);
 });
