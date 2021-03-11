@@ -108,7 +108,7 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
             sale_firstname,
             sale_lastname,
             sale_age,
-            sale_gender
+            sale_gender,
             sale_phone,
             sale_email,
             username,
