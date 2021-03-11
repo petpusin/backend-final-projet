@@ -13,6 +13,10 @@ const SalesSchema = new Schema({
         type: Number,
         required: true
     },
+    sale_gender: {
+        type: String,
+        required: true
+    },
     sale_phone: {
         type: String,
         required: true
