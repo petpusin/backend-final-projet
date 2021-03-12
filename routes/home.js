@@ -14,7 +14,11 @@ router.get("/", async (req, res) => {
 router.get("/:_id", async (req, res) => {
     try {
         console.log(req.params._id);
-        const rest_menu = await restaurant.findById(req.params._id).populate('menus')
+        const rest_menu = await restaurant.findById(req.params._id)
+            .populate('menus')
+            .populate('option')
+            .populate('ingredient')
+            .populate('varaition')
         if (!rest_menu) {
             return res.status(400).send('Can not found restaurant and menu');
         }

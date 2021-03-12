@@ -4,9 +4,6 @@ const sales = require('../models/Sales');
 const restaurant = require('../models/Restaurant');
 const acc = require('../models/AccId');
 const addresses = require('../models/Address');
-const ingredients = require('../models/Ingredient');
-const options = require('../models/Option');
-const varaitions = require('../models/Varaiation');
 const jwt = require('jsonwebtoken')
 const multer = require('multer');
 const router = express.Router();
@@ -35,26 +32,6 @@ var storage = multer.diskStorage({
 });
 var uploadOption = multer({ storage: storage })
 
-// router.post('/', (req, res) => {
-//     const sale = new Sales({
-//         sale_id: req.body.sale_id,
-//         sale_firstname: req.body.sale_firstname,
-//         sale_lastname: req.body.sale_lastname,
-//         sale_age: req.body.sale_age,
-//         sale_phone: req.body.sale_phone,
-//         sale_email: req.body.sale_email,
-//         create: req.body.create,
-//         restaurant_id: req.body.restaurant_id
-//     });
-//     sale.save().then(result => {
-//         res.send({
-//             massage: 'Sale created!',
-//             data: result
-//         }).catch(
-//             err => console.log(err)
-//         )
-//     })
-// });
 
 router.get('/', async (req, res) => {
     const userList = await sales.find().populate('restaurants').select('-password');
