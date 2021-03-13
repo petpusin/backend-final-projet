@@ -75,23 +75,42 @@ router.get("/:_id", (req, res) => {
     });
 });
 
-router.get("/options/:_id", (req, res) => {
-    restaurant.find({menus:req.params._id}).populate('option').select('option -_id').exec((err, data) => {
-        if (err) return res.status(400).send(err);
-        res.status(200).send(data);
-    });
+router.get("/options/:_id", async (req, res) => {
+    try {
+        const res_option = await restaurant.findOne({ menus: req.params._id }).populate('option').select('option -_id');
+        if (!res_option) {
+            return res.status(400).send("Can not found option");
+
+        }
+        return res.status(200).send(res_option);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+
 });
-router.get("/ingredients/:_id", (req, res) => {
-    restaurant.find({menus:req.params._id}).populate('ingredient').select('ingredient -_id').exec((err, data) => {
-        if (err) return res.status(400).send(err);
-        res.status(200).send(data);
-    });
+router.get("/ingredients/:_id", async (req, res) => {
+    try {
+        const res_ingredients = await restaurant.findOne({ menus: req.params._id }).populate('ingredient').select('ingredient -_id');
+        if (!res_ingredients) {
+            return res.status(400).send("Can not found ingredients");
+
+        }
+        return res.status(200).send(res_ingredients);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
 });
-router.get("/varaitions/:_id", (req, res) => {
-    restaurant.find({menus:req.params._id}).populate('varaition').select('varaition -_id').exec((err, data) => {
-        if (err) return res.status(400).send(err);
-        res.status(200).send(data);
-    });
+router.get("/varaitions/:_id", async (req, res) => {
+    try {
+        const res_varaitions = await restaurant.findOne({ menus: req.params._id }).populate('varaition').select('varaition -_id');
+        if (!res_varaitions) {
+            return res.status(400).send("Can not found varaitions");
+
+        }
+        return res.status(200).send(res_varaitions);
+    } catch (error) {
+        return res.status(500).send(error);
+    }
 });
 
 router.post('/options', async (req, res) => {
@@ -100,7 +119,7 @@ router.post('/options', async (req, res) => {
         option_name,
         option_price
     } = req.body
-    
+
     try {
         console.log(req.body);
         const findOption = await options.findOne({ option_name: option_name })
@@ -113,7 +132,7 @@ router.post('/options', async (req, res) => {
 
         })
         await option.save();
-        const res_update = await restaurant.findByIdAndUpdate({ _id: id }, { $push :{option: option._id }}, { new: true })
+        const res_update = await restaurant.findByIdAndUpdate({ _id: id }, { $push: { option: option._id } }, { new: true })
         if (!(option) && !(res_update)) {
             return res.status(500).send("Can not create this option");
         } else {
@@ -144,7 +163,7 @@ router.post('/ingredients', async (req, res) => {
 
         })
         await ingredient.save();
-        const res_update = await restaurant.findByIdAndUpdate({ _id: id }, { $push:{ingredient: ingredient._id} }, { new: true })
+        const res_update = await restaurant.findByIdAndUpdate({ _id: id }, { $push: { ingredient: ingredient._id } }, { new: true })
         if (!(ingredient) && !(res_update)) {
             return res.status(500).send("Can not create this ingredient");
         } else {
@@ -175,7 +194,7 @@ router.post('/varaitions', async (req, res) => {
 
         })
         await varaition.save();
-        const res_update = await restaurant.findByIdAndUpdate({ _id: id }, {  $push:{varaition: varaition._id }}, { new: true })
+        const res_update = await restaurant.findByIdAndUpdate({ _id: id }, { $push: { varaition: varaition._id } }, { new: true })
         if (!varaition) {
             return res.status(500).send("Can not create this varaition");
         } else {
