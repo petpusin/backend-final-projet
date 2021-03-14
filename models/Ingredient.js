@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 var ingredients = new Schema({
-    ingredient_name: String,
-    ingredient_price: Number});
+    label: String,
+    value: Number});
 
 module.exports = mongoose.model('ingredients', ingredients);

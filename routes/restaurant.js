@@ -102,7 +102,7 @@ router.get("/ingredients/:_id", async (req, res) => {
 });
 router.get("/varaitions/:_id", async (req, res) => {
     try {
-        const res_varaitions = await restaurant.findOne({ menus: req.params._id }).populate('varaition').select('varaition -_id');
+        const res_varaitions = await restaurant.findOne({ menus: req.params._id }).populate('varaition').select('varaition -_id ');
         if (!res_varaitions) {
             return res.status(400).send("Can not found varaitions");
 
@@ -116,19 +116,21 @@ router.get("/varaitions/:_id", async (req, res) => {
 router.post('/options', async (req, res) => {
     const {
         id,
-        option_name,
-        option_price
+        label,
+        value
     } = req.body
+
+    let optionname = `${req.body.label} + ${req.body.value}`;
 
     try {
         console.log(req.body);
-        const findOption = await options.findOne({ option_name: option_name })
+        const findOption = await options.findOne({ label: label })
         if (findOption) {
             return res.status(400).send("You have option yet!")
         }
         const option = new options({
-            option_name: option_name,
-            option_price: option_price
+            label: optionname,
+            value: value
 
         })
         await option.save();
@@ -150,16 +152,16 @@ router.post('/ingredients', async (req, res) => {
     try {
         const {
             id,
-            ingredient_name,
-            ingredient_price
+            label,
+            value
         } = req.body
-        const findIngredient = await ingredients.findOne({ ingredient_name: ingredient_name })
+        const findIngredient = await ingredients.findOne({ label: label })
         if (findIngredient) {
             return res.status(400).send("You have ingredient yet!")
         }
         const ingredient = new ingredients({
-            ingredient_name: ingredient_name,
-            ingredient_price: ingredient_price
+            label: label,
+            value: value
 
         })
         await ingredient.save();
