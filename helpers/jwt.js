@@ -13,11 +13,10 @@ function authJwt() {
             {url: `${api}/menu`, methods:['GET','OPTIONS']},
             {url: `${api}/restaurant`, methods:['GET','OPTIONS']},
             {url: `${api}/sales/register`, methods:['POST','OPTIONS']},
-            {url: `${api}/user/login`, methods:['POST','OPTIONS']},
             {url: `${api}/sales/`, methods:['GET','OPTIONS']},
             {url: /\/api\/v1\/home(.*)/ , methods: ['GET', 'OPTIONS'] },
             {url: /\/public\/uploads(.*)/, methods:['GET','OPTIONS']},
-            
+            `${api}/user/login`
             
             ]
     });
