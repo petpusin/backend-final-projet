@@ -17,9 +17,10 @@ router.post('/login', async (req, res) => {
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({
             userId: user._id,
-            username: user.username
+            username: user.username,
+            isAdmin: user.isAdmin
         }, secret, { expiresIn: '1d' });
-        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, token: token });
+        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, isAdmin:user.isAdmin, token: token });
     } else {
         res.status(400).send('password is worng!!');
     }
