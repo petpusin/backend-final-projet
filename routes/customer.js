@@ -4,7 +4,8 @@ const cus = require('../models/Customer');
 
 const acc = require('../models/AccId');
 const addresses = require('../models/Address');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const Customer = require('../models/Customer');
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const user = await acc.findById({_id:req.params.id}).select('-password');
+    const user = await Customer.findOne({acc_id:req.params.id}).select('-password');
 
     if (!user) {
         res.status(500).json({ success: false });
