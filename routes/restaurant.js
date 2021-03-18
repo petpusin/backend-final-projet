@@ -120,16 +120,16 @@ router.post('/options', async (req, res) => {
         value
     } = req.body
 
-    let optionname = `${req.body.label} + ${req.body.value}`;
+    
 
     try {
         console.log(req.body);
-        const findOption = await options.findOne({ label: label })
-        if (findOption) {
-            return res.status(400).send("You have option yet!")
-        }
+        // const findOption = await options.findOne({ label: label })
+        // if (findOption) {
+        //     return res.status(400).send("You have option yet!")
+        // }
         const option = new options({
-            label: optionname,
+            label: label,
             value: value
 
         })
@@ -155,10 +155,10 @@ router.post('/ingredients', async (req, res) => {
             label,
             value
         } = req.body
-        const findIngredient = await ingredients.findOne({ label: label })
-        if (findIngredient) {
-            return res.status(400).send("You have ingredient yet!")
-        }
+        // const findIngredient = await ingredients.findOne({ label: label })
+        // if (findIngredient) {
+        //     return res.status(400).send("You have ingredient yet!")
+        // }
         const ingredient = new ingredients({
             label: label,
             value: value
@@ -183,16 +183,16 @@ router.post('/varaitions', async (req, res) => {
     try {
         const {
             id,
-            varaition_name,
-            varaition_price
+            label,
+            value
         } = req.body
-        const findVaraition = await varaitions.findOne({ varaition_name: varaition_name })
-        if (findVaraition) {
-            return res.status(400).send("You have varaition yet!")
-        }
+        // const findVaraition = await varaitions.findOne({ label: label })
+        // if (findVaraition) {
+        //     return res.status(400).send("You have varaition yet!")
+        // }
         const varaition = await varaitions.create({
-            varaition_name: varaition_name,
-            varaition_price: varaition_price
+            label: label,
+            value: value
 
         })
         await varaition.save();
