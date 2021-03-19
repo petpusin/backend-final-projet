@@ -30,6 +30,57 @@ router.get("/:_id", async (req, res) => {
     }
 
 })
+router.get("/options/:_id", async (req, res) => {
+    try {
+        const res_option = await restaurant.findOne({ menus: req.params._id }).populate('option').select('option -_id');
+        if (!res_option) {
+            return res.status(400).send("Can not found option");
+
+        }
+        return res.status(200).send(res_option);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+
+});
+router.get("/ingredients/:_id", async (req, res) => {
+    try {
+        const res_ingredients = await restaurant.findOne({ menus: req.params._id }).populate('ingredient').select('ingredient -_id');
+        if (!res_ingredients) {
+            return res.status(400).send("Can not found ingredients");
+
+        }
+        return res.status(200).send(res_ingredients);
+    } catch (error) {
+        return res.status(500).send(error)
+    }
+});
+router.get("/varaitions/:_id", async (req, res) => {
+    try {
+        const res_varaitions = await restaurant.findOne({ menus: req.params._id }).populate('varaition').select('varaition -_id ');
+        if (!res_varaitions) {
+            return res.status(400).send("Can not found varaitions");
+
+        }
+        return res.status(200).send(res_varaitions);
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+
+router.get("/op/:_id", async (req, res) => {
+    try {
+        const res_varaitions = await restaurant.findOne({ menus: req.params._id }).populate('varaition').select('varaition -_id ').populate('option').select('option -_id ').populate('ingredient').select('ingredient -_id ');
+        if (!res_varaitions) {
+            return res.status(400).send("Can not found varaitions");
+
+        }
+        return res.status(200).send(res_varaitions);
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+
 
 
 
