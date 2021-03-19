@@ -102,6 +102,10 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
 
 
         } = req.body;
+        const userList = await acc.findOne({ username: req.body.username });
+        if (userList) {
+            return  res.status(400).send('The user is  found!! ');
+        } 
 
         console.log(req.body)
         const addr = new addresses({
@@ -154,11 +158,11 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
             res_image: `${basePath}${FileName}`
         });
         await rest.save();
-
+        const resrole = "restaurant";
         const account = new acc({
             username: username,
             password: bcrypt.hashSync(password, 10),
-
+            role: resrole
         })
         await account.save();
 
@@ -175,8 +179,10 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
         });
 
         await sale.save();
-
-        res.send({ massage: 'sale created!', data: sale });
+        if (sale) {
+            return res.send({ massage: 'sale created!', data: sale });
+        }
+        
     } catch (err) {
         console.log(err);
     }

@@ -18,9 +18,9 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({
             userId: user._id,
             username: user.username,
-            isAdmin: user.isAdmin
+            role: user.role
         }, secret, { expiresIn: '1d' });
-        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, isAdmin:user.isAdmin, token: token });
+        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, role:user.role, token: token });
     } else {
         res.status(400).send('password is worng!!');
     }

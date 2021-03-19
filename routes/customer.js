@@ -41,9 +41,10 @@ router.post('/login', async (req, res) => {
     if (user && bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({
             userId: user._id,
-            username: user.username
+            username: user.username,
+            role: user.role
         }, secret, { expiresIn: '1d' });
-        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, token: token });
+        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username , role: user.role, token: token });
     } else {
         res.status(400).send('password is worng!!');
     }
@@ -74,10 +75,11 @@ router.post('/register', async (req, res) => {
 
         console.log(req.body)
         
-
+        const cusrole = "customer";
         const account = new acc({
             username: username,
             password: bcrypt.hashSync(password, 10),
+            role: cusrole
             
 
         })
