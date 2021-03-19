@@ -113,6 +113,19 @@ router.get("/varaitions/:_id", async (req, res) => {
     }
 });
 
+router.get("/op/:_id", async (req, res) => {
+    try {
+        const res_varaitions = await restaurant.findOne({ menus: req.params._id }).populate('varaition').select('varaition -_id ').populate('option').select('option -_id ').populate('ingredient').select('ingredient -_id ');
+        if (!res_varaitions) {
+            return res.status(400).send("Can not found varaitions");
+
+        }
+        return res.status(200).send(res_varaitions);
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+
 router.post('/options', async (req, res) => {
     const {
         id,
