@@ -82,10 +82,22 @@ router.post('/',uploadOption.single("menu_image"), async (req, res) => {
 });
 
 router.put("/:_id",uploadOption.single("menu_image"), async (req,res) => {
-    
+    const {
+        _id_res,
+        menu_name,
+        describe,
+        price,
+        type_menu
+
+    } = req.body
     const FileName = req.file.filename
     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/menus/`
     const menu_update = await menu.findByIdAndUpdate(req.params._id, {
+        menu_name: menu_name,
+        describe: describe,
+        price: price,
+        type_menu: type_menu,
+        active: false,
         menu_image: `${basePath}${FileName}`
 
     }, { new: true })
@@ -93,6 +105,18 @@ router.put("/:_id",uploadOption.single("menu_image"), async (req,res) => {
         return res.status(400).send('the res_update cannot br create!')
     }
     res.send(menu_update);
+})
+
+router.delete('/:_id' , (req,res) =>{
+    menu.findByIdAndRemove(req.params._id).then((data) =>{
+        if (data) {
+            return res.status(200).json({success: true, message: 'the menu is deleted!'})
+        }else{
+            res.status(404).json({success: false , message: "menu not found!"})
+        }
+    }).catch((error) => {
+        return res.status(500).json({success: false, error: error}) 
+    })
 })
 
 module.exports = router;

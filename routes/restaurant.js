@@ -6,6 +6,7 @@ const ingredients = require('../models/Ingredient');
 const type_menus = require('../models/Type_menu');
 const options = require('../models/Option');
 const varaitions = require('../models/Varaiation');
+const sales = require('../models/Sales')
 const router = express.Router();
 
 
@@ -68,11 +69,15 @@ router.get("/menus/:id", async (req, res) => {
 
 })
 
-router.get("/:_id", (req, res) => {
-    restaurant.findById(req.params._id).exec((err, data) => {
-        if (err) return res.status(400).send(err);
-        res.status(200).send(data);
-    });
+router.get("/:_id", async (req, res) => {
+    const resId = await sales.findOne({acc_id:req.params._id}).populate('restaurants')
+        
+    if (!resId) {
+        return res.status(400).send("cannot found");
+    }else{
+        res.status(200).send(resId);
+    }
+
 });
 
 router.get("/options/:_id", async (req, res) => {

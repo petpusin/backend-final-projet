@@ -26,6 +26,17 @@ router.get('/:_id', async (req, res) => {
         return res.status(200).send(orders);}
 });
 
+router.get('/restaurant/:_id', async (req, res) => {
+    const orders = await order.find({res_id: req.params._id})
+        .populate({ path: 'orderDetail', populate: 'orderlist , ingredient , option , varaition' })
+        .populate('cus_id', 'username')
+        .populate('res_id', 'restaurant_name');
+    if (!orders) {
+        return res.status(400).send('Dont have order in database')
+    }else{
+        return res.status(200).send(orders);}
+});
+
 router.post('/', async (req, res) => {
     console.log(req.body);
     const {
@@ -76,7 +87,7 @@ router.put('/:_id', async (req, res) => {
     const {
         status
     } = req.body
-    if (status == "Waiting" || status == "Cooking" || status == "Cancle") {
+    if (status == "Waiting" || status == "Cooking" || status == "Cancel") {
         const orders = await order.findByIdAndUpdate(
             req.params._id, {
             status: status
