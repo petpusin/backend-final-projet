@@ -37,7 +37,7 @@ app.use(`${api}/customer`, Customer);
 app.use(`${api}/restaurant`, Restaurants);
 app.use(`${api}/menu`, Menu);
 app.use(`${api}/typemenu`, Typemenu);
-app.use(`${api}/order` , Order);
+app.use(`${api}/orders` , Order);
 app.use(`${api}/home`, Home);
 app.use(`${api}/user`, User);
 

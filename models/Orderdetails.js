@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 var orderdetail = new Schema({
-    quantity: {type: Number , required: true,default: 0},
+    quantity: {type: Number , required: true,default: 1},
     orderlist: { type: Schema.Types.ObjectId, ref: 'menu' },
-    ingredient: {type: Schema.Types.ObjectId, ref: 'ingredients'},
-    option: {type: Schema.Types.ObjectId, ref: 'options'},
-    varaition : {type: Schema.Types.ObjectId, ref: 'varaitions'}
+    ingredient: { id:String,value:Number},
+    option: { id:String,value:Number},
+    varaition : { id:String,value:Number},
+    describe: {type:String}
 
 });
 

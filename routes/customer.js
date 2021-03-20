@@ -105,6 +105,17 @@ router.post('/register', async (req, res) => {
 
 })
 
+router.get('/orders/:_id', async (req, res) => {
+    const orders = await order.findOne({cus_id:req.params._id})
+        .populate({ path: 'orderDetail', populate: 'orderlist , ingredient , option , varaition' })
+        .populate('cus_id', 'cus_firstname')
+        .populate('res_id', 'restaurant_name');
+    if (!orders) {
+        res.status(400).send('Dont have menu in database')
+    }
+    res.send(orders);
+});
+
 
 
 module.exports = router;
