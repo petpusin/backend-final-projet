@@ -16,14 +16,14 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:_id', async (req, res) => {
-    const orders = await order.findById(req.params._id)
+    const orders = await order.find({cus_id: req.params._id})
         .populate({ path: 'orderDetail', populate: 'orderlist , ingredient , option , varaition' })
-        .populate('cus_id', 'cus_firstname')
+        .populate('cus_id', 'username')
         .populate('res_id', 'restaurant_name');
     if (!orders) {
-        res.status(400).send('Dont have menu in database')
-    }
-    res.send(orders);
+        return res.status(400).send('Dont have order in database')
+    }else{
+        return res.status(200).send(orders);}
 });
 
 router.post('/', async (req, res) => {

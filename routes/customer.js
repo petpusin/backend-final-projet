@@ -105,8 +105,8 @@ router.post('/register', async (req, res) => {
 
 })
 
-router.get('/orders/:_id', async (req, res) => {
-    const orders = await order.findOne({cus_id:req.params._id})
+router.get('/history/:_id', async (req, res) => {
+    const orders = await order.findOne({cus_id:req.params._id , status:"Finish"})
         .populate({ path: 'orderDetail', populate: 'orderlist , ingredient , option , varaition' })
         .populate('cus_id', 'cus_firstname')
         .populate('res_id', 'restaurant_name');

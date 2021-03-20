@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 var order = new Schema({
    res_id: { type: Schema.Types.ObjectId, ref: 'restaurant' },
-   cus_id: { type: Schema.Types.ObjectId, ref: 'customer' },
+   cus_id: { type: Schema.Types.ObjectId, ref: 'accId' },
    orderDetail: [{ type: Schema.Types.ObjectId, ref: 'orderdetails' }],
    totalPrice : {type: Number},
    status: {type: String, required: true , default: "Waiting"},
