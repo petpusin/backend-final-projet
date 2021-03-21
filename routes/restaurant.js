@@ -205,6 +205,7 @@ router.post('/varaitions', async (req, res) => {
             label,
             value
         } = req.body
+        console.log(req.body);
         // const findVaraition = await varaitions.findOne({ label: label })
         // if (findVaraition) {
         //     return res.status(400).send("You have varaition yet!")
