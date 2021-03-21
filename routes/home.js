@@ -3,6 +3,7 @@ const restaurant = require('../models/Restaurant');
 const menu = require('../models/Menu');
 const type_menus = require('../models/Type_menu');
 const router = express.Router();
+const sales = require('../models/Sales')
 
 router.get("/", async (req, res) => {
     const rest = await restaurant.find({}).populate('menus').select('restaurant_name res_image')
@@ -79,6 +80,16 @@ router.get("/op/:_id", async (req, res) => {
     } catch (error) {
         return res.status(500).send(error);
     }
+});
+router.get("/restaurant/:_id", async (req, res) => {
+    const resId = await sales.findOne({acc_id:req.params._id}).populate('restaurants')
+        
+    if (!resId) {
+        return res.status(400).send("cannot found");
+    }else{
+        res.status(200).send(resId);
+    }
+
 });
 
 

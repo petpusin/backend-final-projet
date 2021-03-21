@@ -8,16 +8,16 @@ const router = express.Router();
 
 
 router.get('/', async (req, res) => {
-    const orderList = await order.find().populate('orderDetail ');
-    if (!orderList) {
+    const orderlist = await order.find().populate('orderDetail ');
+    if (!orderlist) {
         res.status(400).send('Dont have menu in database')
     }
-    res.send(orderList);
+    res.send(menus);
 });
 
 router.get('/:_id', async (req, res) => {
     const orders = await order.find({cus_id: req.params._id})
-        .populate({ path: 'orderDetail', populate: 'orderlist , ingredient , option , varaition' })
+        .populate({ path: 'orderDetail', populate: 'menus , ingredient , option , varaition' })
         .populate('cus_id', 'username')
         .populate('res_id', 'restaurant_name');
     if (!orders) {
@@ -28,7 +28,7 @@ router.get('/:_id', async (req, res) => {
 
 router.get('/restaurant/:_id', async (req, res) => {
     const orders = await order.find({res_id: req.params._id})
-        .populate({ path: 'orderDetail', populate: 'orderlist , ingredient , option , varaition' })
+        .populate({ path: 'orderDetail', populate: 'menus , ingredient , option , varaition' })
         .populate('cus_id', 'username')
         .populate('res_id', 'restaurant_name');
     if (!orders) {
@@ -49,10 +49,11 @@ router.post('/', async (req, res) => {
     const OrderDetailsIds = Promise.all(orderDetail.map(async ordetail => {
         let neworderdetail = new orderdetails({
             quantity: ordetail.quantity,
-            orderlist: ordetail.orderlist,
+            menus: ordetail.menus,
             ingredient: ordetail.ingredient,
             option: ordetail.option,
-            varaition: ordetail.varaition
+            varaition: ordetail.varaition,
+            describe: ordetail.describe
         });
 
         neworderdetail = await neworderdetail.save();
@@ -83,38 +84,6 @@ router.post('/', async (req, res) => {
     // res.end();
 });
 
-router.put('/:_id', async (req, res) => {
-    const {
-        status
-    } = req.body
-    if (status == "Waiting" || status == "Cooking" || status == "Cancel") {
-        const orders = await order.findByIdAndUpdate(
-            req.params._id, {
-            status: status
 
-        }, { new: true })
-
-        if (!orders) {
-            return res.status(400).send('the order cannot br create!')
-        }
-        res.send(orders);
-
-    } else if (status == "Finish") {
-        const orders = await order.findByIdAndUpdate(
-            req.params._id, {
-            status: status,
-            dateOrderFinish : Date.now()
-
-        }, { new: true })
-
-        if (!orders) {
-            return res.status(400).send('the order cannot br create!')
-        }
-        res.send(orders);
-
-    }
-    
-
-})
 
 module.exports = router;

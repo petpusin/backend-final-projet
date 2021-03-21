@@ -8,6 +8,7 @@ const options = require('../models/Option');
 const varaitions = require('../models/Varaiation');
 const sales = require('../models/Sales')
 const router = express.Router();
+const order = require('../models/Order');
 
 
 router.post('/', async (req, res) => {
@@ -228,5 +229,49 @@ router.post('/varaitions', async (req, res) => {
     }
 });
 
+router.get('/orders/:_id', async (req, res) => {
+    const orders = await order.find({res_id: req.params._id})
+        .populate({ path: 'orderDetail', populate: 'menus , ingredient , option , varaition' })
+        .populate('cus_id', 'username')
+        .populate('res_id', 'restaurant_name');
+    if (!orders) {
+        return res.status(400).send('Dont have order in database')
+    }else{
+        return res.status(200).send(orders);}
+});
+
+router.put('/orders/:_id', async (req, res) => {
+    const {
+        status
+    } = req.body
+    if (status == "รอรับออเดอร์" || status == "กำลังปรุงอาหาร" ) {
+        const orders = await order.findByIdAndUpdate(
+            req.params._id, {
+            status: status
+
+        }, { new: true })
+
+        if (!orders) {
+            return res.status(400).send('the order cannot br create!')
+        }
+        res.send(orders);
+
+    } else if (status == "อาหารเสร็จแล้ว" || status == "ปฎิเสธออเดอร์" || status == "วัตถุดิบไม่เพียงพอ") {
+        const orders = await order.findByIdAndUpdate(
+            req.params._id, {
+            status: status,
+            dateOrderFinish : Date.now()
+
+        }, { new: true })
+
+        if (!orders) {
+            return res.status(400).send('the order cannot br create!')
+        }
+        res.send(orders);
+
+    }
+    
+
+})
 module.exports = router;
 
