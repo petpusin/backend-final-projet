@@ -55,13 +55,13 @@ router.get("/", async (req, res) => {
 
 });
 
-router.get("/menus/:id", async (req, res) => {
+router.get("/menus/:_id", async (req, res) => {
     try {
-        const rest_menu = await restaurant.find({}).populate('menus')
+        const rest_menu = await restaurant.findById(req.params._id).populate({path:'menus'})
         if (!rest_menu) {
             return res.status(400).send('Can not found restaurant and menu');
         }
-        res.status(200).send(rest_menu);
+        return res.status(200).send(rest_menu);
 
     } catch (error) {
         console.log(error);
