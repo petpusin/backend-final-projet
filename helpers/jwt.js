@@ -19,7 +19,7 @@ function authJwt() {
             `${api}/user/login`,
             `${api}/customer/register`,
             `${api}/sales/register`,
-            `${api}/typemenu`
+            {url: `${api}/typemenu`, methods:['GET','OPTIONS']}
 
             
             ]

@@ -6,7 +6,7 @@ var menus = new Schema({
     
     describe: {type: String},
     price: {type: Number,required:true},
-    type_menu: {type: Schema.Types.ObjectId, ref: 'type_menu' , required:true},
+    type_menu: {type:String},
     active: Boolean,
     menu_image: {type: String}
     

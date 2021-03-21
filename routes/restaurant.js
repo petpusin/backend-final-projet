@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
 
 router.get("/menus/:_id", async (req, res) => {
     try {
-        const rest_menu = await restaurant.findById(req.params._id).populate({path:'menus'})
+        const rest_menu = await restaurant.findById(req.params._id).populate({path:'menus'}).populate('varaition').populate('option').populate('ingredient')
         if (!rest_menu) {
             return res.status(400).send('Can not found restaurant and menu');
         }
