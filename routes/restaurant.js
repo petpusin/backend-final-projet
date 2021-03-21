@@ -244,7 +244,8 @@ router.put('/orders/:_id', async (req, res) => {
     const {
         status
     } = req.body
-    if (status == "รอรับออเดอร์" || status == "กำลังปรุงอาหาร" ) {
+    console.log(req.body);
+    if (status == "Waiting" || status == "Cooking" ) {
         const orders = await order.findByIdAndUpdate(
             req.params._id, {
             status: status
@@ -256,7 +257,7 @@ router.put('/orders/:_id', async (req, res) => {
         }
         res.send(orders);
 
-    } else if (status == "อาหารเสร็จแล้ว" || status == "ปฎิเสธออเดอร์" || status == "วัตถุดิบไม่เพียงพอ") {
+    } else if (status == "Finish" || status == "Endtransac" || status == "Lack"|| status == "Cancel") {
         const orders = await order.findByIdAndUpdate(
             req.params._id, {
             status: status,
