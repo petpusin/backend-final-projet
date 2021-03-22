@@ -102,10 +102,10 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
 
 
         } = req.body;
-        const userList = await acc.findOne({ username: req.body.username });
-        if (userList) {
-            return  res.status(400).send('The user is  found!! ');
-        } 
+        // const userList = await acc.findOne({ username: username });
+        // if (userList) {
+        //     return  res.status(400).send('The user is  found!! ');
+        // } 
 
         console.log(req.body)
         const addr = new addresses({

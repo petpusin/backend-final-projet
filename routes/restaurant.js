@@ -275,5 +275,39 @@ router.put('/orders/:_id', async (req, res) => {
     
 
 })
+
+router.delete('/option/:_id', (req, res) => {
+    options.findByIdAndRemove(req.params._id).then((data) => {
+        if (data) {
+            return res.status(200).json({ success: true, message: 'the menu is deleted!' })
+        } else {
+            return res.status(404).json({ success: false, message: "menu not found!" })
+        }
+    }).catch((error) => {
+        return res.status(500).json({ success: false, error: error })
+    })
+})
+router.delete('/ingredients/:_id', (req, res) => {
+    ingredients.findByIdAndRemove(req.params._id).then((data) => {
+        if (data) {
+            return res.status(200).json({ success: true, message: 'the menu is deleted!' })
+        } else {
+            return res.status(404).json({ success: false, message: "menu not found!" })
+        }
+    }).catch((error) => {
+        return res.status(500).json({ success: false, error: error })
+    })
+})
+router.delete('/varaitions/:_id', (req, res) => {
+    varaitions.findByIdAndRemove(req.params._id).then((data) => {
+        if (data) {
+            return res.status(200).json({ success: true, message: 'the menu is deleted!' })
+        } else {
+            return res.status(404).json({ success: false, message: "menu not found!" })
+        }
+    }).catch((error) => {
+        return res.status(500).json({ success: false, error: error })
+    })
+})
 module.exports = router;
 
