@@ -6,6 +6,8 @@ resources
 - Nodejs (Framework)
 - Mongo DB
 - Postman
+- Express
+- JWT (Authorization)
 
 # [Installation/Configuration Manual]
 
