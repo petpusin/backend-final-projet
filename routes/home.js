@@ -2,6 +2,7 @@ const express = require('express');
 const restaurant = require('../models/Restaurant');
 const menu = require('../models/Menu');
 const type_menus = require('../models/Type_menu');
+const acc = require('../models/AccId')
 const router = express.Router();
 const sales = require('../models/Sales')
 
@@ -11,10 +12,17 @@ router.get("/", async (req, res) => {
     res.send(rest);
 
 });
+router.get('/customer', async (req, res) => {
+    const userList = await acc.find().select('-password');
+
+    if (!userList) {
+        res.status(500).json({ success: false });
+    }
+    res.send(userList);
+});
 
 router.get("/:_id", async (req, res) => {
     try {
-        console.log(req.params._id);
         const rest_menu = await restaurant.findById(req.params._id)
             .populate('menus')
             .populate('option')
@@ -91,8 +99,5 @@ router.get("/restaurant/:_id", async (req, res) => {
     }
 
 });
-
-
-
 
 module.exports = router;

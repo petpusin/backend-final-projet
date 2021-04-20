@@ -7,9 +7,12 @@ router.get('/', async (req, res) => {
         const getType = await typemenu.find();
         if(!getType) {
             return res.status(500).json({success : false});
+        }else{ 
+            return res.status(200).send(getType);
+
         }
         
-        res.send(getType);
+        
 
     } catch (error) {
         console.log(error);
@@ -24,7 +27,6 @@ router.post('/', async (req, res) => {
             describe
 
         } = req.body;
-        console.log(req.body);
         const category = await typemenu.findOne({type_name : type_name});
         if(category){
             return res.status(400).send('has type of menu yet!')
@@ -36,8 +38,10 @@ router.post('/', async (req, res) => {
         await createType.save();
         if(!createType) {
             return res.status(404).json({success : false});
+        }else{
+            return res.status(200).send(createType);
         }
-        res.send(createType);
+        
        
     } catch (error) {
         console.log(error);

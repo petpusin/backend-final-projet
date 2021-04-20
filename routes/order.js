@@ -73,15 +73,11 @@ router.post('/', async (req, res) => {
 
     if (!orders) {
         return res.status(400).send('the order cannot br create!')
+    }else{
+        return res.status(200).send(orders);
     }
-    res.send(orders);
-    // res.send({
-    //     massege: 'Order created!',
-    //     data: orders
-    // }).catch(
-    //     err => console.log(err)
-    // );
-    // res.end();
+    
+    
 });
 
 

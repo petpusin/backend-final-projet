@@ -37,9 +37,11 @@ router.get('/', async (req, res) => {
     const userList = await sales.find().populate('restaurants').select('-password');
 
     if (!userList) {
-        res.status(500).json({ success: false });
+        return res.status(500).json({ success: false });
+    }else{
+        return res.status(200).send(userList);
     }
-    res.send(userList);
+    
 });
 
 router.get('/:id', async (req, res) => {
@@ -47,15 +49,15 @@ router.get('/:id', async (req, res) => {
 
     if (!user) {
         return res.status(500).json({ success: false });
+    }else{
+        return res.status(200).send(user);
     }
-    res.send(user);
+    
 });
 
 router.post('/login', async (req, res) => {
-    console.log(req.body);
     const user = await acc.findOne({ username: req.body.username });
     const secret = process.env.secret;
-    console.log(secret);
     if (!user) {
         return res.status(400).send('The user is not found!!');
     }
@@ -65,9 +67,9 @@ router.post('/login', async (req, res) => {
             userId: user._id,
             username: user.username
         }, secret, { expiresIn: '1d' });
-        res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, token: token });
+        return res.status(200).header('auth-token', token).send({ userId: user._id, user: user.username, token: token });
     } else {
-        res.status(400).send('password is worng!!');
+        return res.status(400).send('password is worng!!');
     }
 
 
@@ -75,10 +77,6 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/register', uploadOption.single("res_image"), async (req, res) => {
-    // res.send('register route');
-
-
-
     try {
         const {
             sale_firstname,
@@ -106,8 +104,6 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
         // if (userList) {
         //     return  res.status(400).send('The user is  found!! ');
         // } 
-
-        console.log(req.body)
         const addr = new addresses({
             addr_line1: addr_line1,
             road: road,
@@ -117,38 +113,6 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
             postalcode: postalcode,
         }); //address/id
         await addr.save();
-        //ingredient
-        // const ingredientId = Promise.all(restaurants.ingredient.map(async ingre => {
-        //     let ingredientNew = new ingredients({
-        //         ingredient_name: ingre.ingredient_name,
-        //         ingredient_price: ingre.ingredient_price
-        //     });
-        //     ingredientNew = await ingredientNew.save();
-        //     return ingredientNew._id;
-        // }));
-        // //options 
-        // const optionId = Promise.all(restaurants.option.map(async op => {
-        //     let opNew = new options({
-        //         option_name: op.option_name,
-        //         option_price: op.option_price
-        //     });
-        //     opNew = await opNew.save();
-        //     return opNew._id;
-        // }));
-        // // variation
-
-        // const variationId = Promise.all(restaurants.varaition.map(async vara => {
-        //     let varaNew = new varaitions({
-        //         varaition_name: vara.varaition_name,
-        //         varaition_price: vara.varaition_price
-        //     });
-        //     varaNew = await varaNew.save();
-        //     return varaNew._id;
-        // }));
-
-        // const optionIdResolved = await optionId;
-        // const ingredientIdResolved = await ingredientId;
-        // const variationResolved = await variationId;
         const FileName = req.file.filename
         const basePath = `${req.protocol}://${req.get('host')}/public/uploads/restaurants/`
         const rest = new restaurant({
@@ -180,7 +144,7 @@ router.post('/register', uploadOption.single("res_image"), async (req, res) => {
 
         await sale.save();
         if (sale) {
-            return res.send({ massage: 'sale created!', data: sale });
+            return res.status(200).send({ massage: 'sale created!', data: sale });
         }
         
     } catch (err) {
@@ -199,8 +163,10 @@ router.put("/:_id",uploadOption.single("res_image"), async (req,res) => {
     }, { new: true })
     if (!res_update) {
         return res.status(400).send('the res_update cannot br create!')
+    }else{
+        return res.status(200).send(res_update);
     }
-    res.send(res_update);
+    
 })
 
 module.exports = router;

@@ -42,13 +42,7 @@ app.use(`${api}/home`, Home);
 app.use(`${api}/user`, User);
 
 
-// app.get('/', (req,res) =>{
-//     res.send('Welcome to express!!');
-// });
 
-// app.get('/api/listen' , (req,res) =>{
-//     res.send([{id: 1 , roomType: 'Duplex'}, {id:2 , roomType: 'Sing'}])
-// });
 
 mongoose.connect(`mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster.40z2p.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,{ useNewUrlParser: true, useUnifiedTopology: true ,useFindAndModify: false}).then(
     resule =>{

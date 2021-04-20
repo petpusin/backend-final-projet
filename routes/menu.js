@@ -85,7 +85,6 @@ router.post('/', uploadOption.single("menu_image"), async (req, res) => {
     }
 
 })
-// res.end();
 
 router.put("/:_id", uploadOption.single("menu_image"), async (req, res) => {
     const {

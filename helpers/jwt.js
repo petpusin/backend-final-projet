@@ -3,7 +3,6 @@ require("dotenv").config();
 function authJwt() {
     const sec = process.env.secret;
     const api = process.env.API_URL
-    console.log(sec);
     return expressJwt({
         secret : sec,
         algorithms: ['HS256'],

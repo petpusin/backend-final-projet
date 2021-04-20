@@ -14,7 +14,6 @@ const order = require('../models/Order');
 router.post('/', async (req, res) => {
 
     try {
-        console.log(req.body);
         const {
             restaurant_name,
             address,
@@ -76,7 +75,7 @@ router.get("/:_id", async (req, res) => {
     if (!resId) {
         return res.status(400).send("cannot found");
     }else{
-        res.status(200).send(resId);
+        return res.status(200).send(resId);
     }
 
 });
@@ -138,11 +137,8 @@ router.post('/options', async (req, res) => {
         label,
         value
     } = req.body
-
-    
-
     try {
-        console.log(req.body);
+        
         // const findOption = await options.findOne({ label: label })
         // if (findOption) {
         //     return res.status(400).send("You have option yet!")
@@ -205,7 +201,6 @@ router.post('/varaitions', async (req, res) => {
             label,
             value
         } = req.body
-        console.log(req.body);
         // const findVaraition = await varaitions.findOne({ label: label })
         // if (findVaraition) {
         //     return res.status(400).send("You have varaition yet!")
@@ -245,7 +240,6 @@ router.put('/orders/:_id', async (req, res) => {
     const {
         status
     } = req.body
-    console.log(req.body);
     if (status == "Waiting" || status == "Cooking" ) {
         const orders = await order.findByIdAndUpdate(
             req.params._id, {
@@ -255,8 +249,10 @@ router.put('/orders/:_id', async (req, res) => {
 
         if (!orders) {
             return res.status(400).send('the order cannot br create!')
+        }else{
+            return res.status(200).send(orders);
         }
-        res.send(orders);
+        
 
     } else if (status == "Finish" || status == "Endtransac" || status == "Lack"|| status == "Cancel") {
         const orders = await order.findByIdAndUpdate(
@@ -268,8 +264,10 @@ router.put('/orders/:_id', async (req, res) => {
 
         if (!orders) {
             return res.status(400).send('the order cannot br create!')
+        }else{
+            return res.status(200).send(orders);
         }
-        res.send(orders);
+        
 
     }
     
