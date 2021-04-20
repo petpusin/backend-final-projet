@@ -28,7 +28,7 @@ $ nodemon app.js
 
 ### GET 
 ```
-GET    /home/sales
+GET    /home
 GET    /home/customer
 GET    /home/restaurant/:_id
 GET    /home/options/:_id
