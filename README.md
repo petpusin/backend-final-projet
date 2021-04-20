@@ -24,6 +24,9 @@ $ nodemon app.js
 ### run on heroku
 #### URL https://guarded-inlet-94713.herokuapp.com/api/v1/
 
+# Schematic
+![final-project](https://user-images.githubusercontent.com/35326965/115413224-344bc980-a21f-11eb-8b78-228142ac0bf8.png)
+
 # Routes
 
 ### GET 
